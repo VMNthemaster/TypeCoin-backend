@@ -1,0 +1,21 @@
+{
+    "data": [
+        {
+            "roomId": "80561a44-4f7b-44ac-808b-63fcf08d6aa3",
+            "currentRoomCount": 2,
+            "usernames": [
+                "vmn 4",
+                "vmn 5"
+            ]
+        },
+        {
+            "roomId": "qwertyuiop",
+            "currentRoomCount": 3,
+            "usernames": [
+                "vmn",
+                "vmn",
+                "vmn 3"
+            ]
+        }
+    ]
+}
