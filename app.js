@@ -25,6 +25,7 @@ const sendRoomIdToFrontend = async (username) => {
         const roomDetails = {
             roomId: randomUUID(),
             currentRoomCount: 1,
+            playState: false,
             usernames: [username]
         }
 
@@ -38,6 +39,9 @@ const sendRoomIdToFrontend = async (username) => {
         // add the user in the room
         element.currentRoomCount += 1
         element.usernames.push(username)
+        if(element.currentRoomCount === 3){
+            element.playState = true
+        }
         arr[0] = element
 
         fs.writeFileSync("data.json", JSON.stringify({data: arr}))
