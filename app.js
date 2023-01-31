@@ -3,21 +3,24 @@ const app = express()
 import http from 'http'
 import cors from 'cors'
 app.use(cors())
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
 import {Server} from 'socket.io'
 import { randomUUID } from 'crypto'
 import fs from 'fs'
 
+const router = express.Router()
+app.use('/', router)
+
 const server = http.createServer(app)
 
-
-const sendRoomIdToFrontend = async (username) => {
+router.post('/getRoomData', (req, res) => {
+    const {username} = req.body;
     let obj, arr, element;
 
     obj = fs.readFileSync("./data.json", 'utf8')     // this is the correct way to read data
-    console.log(obj, "obj")
     const parsedObj = JSON.parse(obj)
     arr = parsedObj.data
-    console.log(arr, "arr")
     element = arr[0]
 
     if(element.currentRoomCount===3){
@@ -26,19 +29,23 @@ const sendRoomIdToFrontend = async (username) => {
             roomId: randomUUID(),
             currentRoomCount: 1,
             playState: false,
-            usernames: [username]
+            usernames: {
+                player1: username,
+                player2: '',
+                player3: ''
+            }
         }
 
         arr.unshift(roomDetails)
 
         fs.writeFileSync("data.json", JSON.stringify({data: arr}))
 
-        return roomDetails;
+        return res.status(200).json(roomDetails)
     }
     else{
         // add the user in the room
         element.currentRoomCount += 1
-        element.usernames.push(username)
+        element.usernames[`player${element.currentRoomCount}`] = username
         if(element.currentRoomCount === 3){
             element.playState = true
         }
@@ -46,11 +53,10 @@ const sendRoomIdToFrontend = async (username) => {
 
         fs.writeFileSync("data.json", JSON.stringify({data: arr}))
 
-        return element;
+        return res.status(200).json(element)
+
     }
-
-
-}
+})
 
 
 
@@ -64,9 +70,19 @@ const io = new Server(server, {
 io.on('connection', (socket) => {
     console.log(`user connected: ${socket.id}`)
 
-    socket.on('get_room_id', async (data) => {
-        const roomData = await sendRoomIdToFrontend(data.username)
-        socket.emit('get_room_id_from_backend', roomData)
+    socket.on("join_room", (data) => {
+        console.log("room joined")
+        socket.join(`${data.roomId}`)
+    })
+
+    socket.on('get_sentence_from_first_player', (data) => {
+        console.log("hi1")
+        socket.to(`${data.roomId}`).emit('get_sentence_from_first_player_backend')
+    })
+
+    socket.on('send_sentence_to_room', (data) => {
+        console.log("reached here")
+        socket.to(`${data.roomId}`).emit('send_sentence_to_room_backend', data)
     })
 })
 
