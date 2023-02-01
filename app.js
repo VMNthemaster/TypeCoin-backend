@@ -58,6 +58,51 @@ router.post('/getRoomData', (req, res) => {
     }
 })
 
+router.post('/getSentenceData', (req, res) => {
+    const {sentenceData, roomId} = req.body;
+
+    let obj, arr, element;
+
+    obj = fs.readFileSync("./data.json", 'utf8')   
+    const parsedObj = JSON.parse(obj)
+    arr = parsedObj.data
+
+    const newArr = arr.map(roomDetails => {
+        if(roomDetails.roomId === roomId){
+            roomDetails.sentenceData = sentenceData
+            element = roomDetails
+        }
+
+        return roomDetails;
+    })
+
+    fs.writeFileSync("data.json", JSON.stringify({data: newArr}))
+
+    return res.status(200).json(element)
+
+})
+
+router.post('/sendSentenceData', (req, res) => {
+    const {roomId} = req.body
+
+    let obj, arr, sentenceData;
+
+    obj = fs.readFileSync("./data.json", 'utf8')   
+    const parsedObj = JSON.parse(obj)
+    arr = parsedObj.data
+
+    arr.map(roomDetails => {
+        if(roomDetails.roomId === roomId){
+            sentenceData = roomDetails.sentenceData
+        }
+
+        return roomDetails 
+    })
+
+    return res.status(200).json(sentenceData)
+    
+})
+
 
 
 const io = new Server(server, {
@@ -75,15 +120,7 @@ io.on('connection', (socket) => {
         socket.join(`${data.roomId}`)
     })
 
-    socket.on('get_sentence_from_first_player', (data) => {
-        console.log("hi1")
-        socket.to(`${data.roomId}`).emit('get_sentence_from_first_player_backend')
-    })
-
-    socket.on('send_sentence_to_room', (data) => {
-        console.log("reached here")
-        socket.to(`${data.roomId}`).emit('send_sentence_to_room_backend', data)
-    })
+   
 })
 
 server.listen(5000, () => {
