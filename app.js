@@ -114,9 +114,12 @@ io.on('connection', (socket) => {
   })
 
   socket.on('change_loading_state', (data) => {
-    console.log(data)
     // this is the correct way to send emit event to all users. Only socket.emit will emit event to the current connection
     io.sockets.emit('set_loading_false', data) 
+  })
+
+  socket.on("send_race_data", (data) => {
+    io.sockets.emit("receive_race_data", data)
   })
 })
 
