@@ -121,6 +121,10 @@ io.on('connection', (socket) => {
   socket.on("send_race_data", (data) => {
     io.sockets.emit("receive_race_data", data)
   })
+
+  socket.on("send_race_finish_data", (data) => {
+    io.sockets.emit("receive_race_finish_data", data)
+  })
 })
 
 server.listen(5000, () => {

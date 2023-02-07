@@ -1,14 +1,1 @@
-{
-    "data": [
-        {
-            "roomId": "086064c2-e2b5-44e7-8f85-76312db7a6f8",
-            "currentRoomCount": 3,
-            "playState": true,
-            "usernames": {
-                "player1": "vmn 1",
-                "player2": "vmn 2",
-                "player3": "vmn 3"
-            }
-        }
-    ]
-}
+{"data":[{"roomId":"4b7b6a30-9ee0-4e27-90fc-6686694f763e","currentRoomCount":3,"playState":true,"usernames":{"player1":"vmn 4","player2":"vmn 5","player3":"vmn 6"},"sentenceData":{"sentence":"Your silence furnishes a dark house. But even at the risk of burning, the moth always seeks the light.","count":19,"lastWord":"light."}},{"roomId":"622379e8-cbf8-41f1-b3b6-cb5ea850bc2f","currentRoomCount":3,"playState":true,"usernames":{"player1":"vmn 4","player2":"vmn 5","player3":"vmn 6"}},{"roomId":"015cc77c-e892-474b-ba04-e223dc4db8f1","currentRoomCount":3,"playState":true,"usernames":{"player1":"vmn 4","player2":"vmn 5","player3":"vmn 6"},"sentenceData":{"sentence":"So I walk into the sun. I thought you'd be there, but you could fool anyone. In the red water dust, will I see you soon, or did we move on?.","count":31,"lastWord":"on?."}},{"roomId":"086064c2-e2b5-44e7-8f85-76312db7a6f8","currentRoomCount":3,"playState":true,"usernames":{"player1":"vmn 1","player2":"vmn 2","player3":"vmn 3"}}]}
