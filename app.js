@@ -125,6 +125,12 @@ io.on('connection', (socket) => {
   socket.on("send_race_finish_data", (data) => {
     io.sockets.emit("receive_race_finish_data", data)
   })
+
+  socket.on('already_paid', (data) => {
+    io.sockets.emit("receive_already_paid", data)
+    socket.disconnect()
+
+  })
 })
 
 server.listen(5000, () => {
